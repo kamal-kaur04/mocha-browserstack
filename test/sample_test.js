@@ -2,9 +2,24 @@ var assert = require('assert');
 const { Builder, By, Capabilities, until } = require("selenium-webdriver");
 
 var buildDriver = function() {
+  var singleTestCapabilities = {
+    'bstack:options': {
+      "os": "OS X",
+      "osVersion": "Big Sur",
+      "buildName": "browserstack-build-1",
+      "sessionName": "BStack single node-js",
+      "local": "false",
+      "seleniumVersion": "4.0.0",
+    },
+    "browserName": "Chrome",
+    "browserVersion": "latest",
+  }
   return new Builder().
-    usingServer('http://localhost:4444/wd/hub').
-    withCapabilities(Capabilities.chrome()).
+  /* for local execution */
+    // usingServer('http://localhost:4444/wd/hub').
+  /*for BStack execution */
+    usingServer(`https://username:accesskey@hub.browserstack.com/wd/hub`).
+    withCapabilities(singleTestCapabilities).
     build();
 };
 
